@@ -4,7 +4,7 @@
 
 CrewPulse gives astronauts their **body weather**: today's health in one word, the next 3 days, and switches that show how a plan (like more sleep) changes the forecast. It reads a **₹3,500 chest Band** live over Bluetooth, works **fully offline**, and sends an **encrypted** daily report to ground (post-quantum protection planned).
 
-**▶ Open / install the app:** `LIVE_LINK`
+**▶ Open / install the app:** https://shubhamsinha503.github.io/crewpulse/
 
 ## Features
 - **Body weather** — 4 conditions (fatigue, mood, heart, muscle & bone) learned from **your own** readings, today + 3-day forecast, with plain "why" lines.
@@ -31,6 +31,38 @@ CrewPulse gives astronauts their **body weather**: today's health in one word, t
 python -m http.server 5173 --directory astro-health
 ```
 Then open http://localhost:5173.
+
+## Evidence: 20 medical cases, 1970–2026
+We studied 20 medical incidents and risks from real missions. CrewPulse has a signal for 13 of them; the other 7 need sensors it doesn't have yet (CO₂, toxic gas, suit, ultrasound, bone scans) or have no public cause, and no landing-readiness feature is built yet.
+
+**Irregular-beat detector check:** run on the MIT-BIH Arrhythmia Database (PhysioNet), 44 recordings, 100,733 labelled beats: 92% precision, ranks recordings by irregular-beat load with Spearman 0.83, misses about 2 in 3 irregular beats (so the app reports change vs your own normal, never absolute counts). Reproduce: `node tools/validate-mitbih/validate.mjs`.
+
+**Medical events**
+- [Crew-11 medical evacuation](https://www.smithsonianmag.com/smart-news/nasa-to-bring-iss-crew-home-early-because-of-an-astronauts-health-issue-marking-the-first-medical-evacuation-of-the-spacecraft-180987983/)
+- [Crew-11 (BGR)](https://www.bgr.com/2081171/nasa-spacex-crew-11-medical-evacuation/)
+- [Crew-8 hospital stay](https://www.ksl.com/article/news/us/spacex-crew-8-astronaut-hospitalized-with-medical-issue-after-splashdown-has-been-released-nasa-says/51580566)
+- [Apollo 15 bigeminy](https://en.wikipedia.org/wiki/Return_of_Apollo_15_to_Earth)
+- [Laveykin](https://en.wikipedia.org/wiki/Aleksandr_Laveykin)
+- [Vasyutin / Soyuz T-14](https://en.wikipedia.org/wiki/Soyuz_T-14)
+- [Tsibliyev 1997](https://web.mit.edu/16.423/www/MirMishapWeb/July14%2797.html)
+- [Apollo 13 Haise](https://en.wikipedia.org/wiki/Fred_Haise)
+- [Apollo–Soyuz gas exposure](https://www.americaspace.com/2015/07/18/partners-in-space-the-first-u-s-russian-manned-space-mission-part-3/)
+- [Parmitano EVA-23](https://www.americaspace.com/2014/02/27/a-condition-that-was-life-threatening-nasa-releases-report-into-eva-23-water-intrusion-incident/)
+- [Jugular flow and clot (JAMA Netw Open 2019)](https://pmc.ncbi.nlm.nih.gov/articles/PMC6902784/)
+- [Clot treated from Earth](https://www.beckershospitalreview.com/quality/first-case-of-blood-clot-in-space-treated-from-earth/)
+
+**Risks and rates**
+- [Clinical symptoms on ISS (Crucian 2016)](https://pmc.ncbi.nlm.nih.gov/articles/PMC5098747)
+- [SANS review](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10907968/)
+- [Herpes virus reactivation (Rooney et al. 2019)](https://www.frontiersin.org/articles/10.3389/fmicb.2019.00016/pdf)
+- [CO₂ and headaches (Law 2014)](https://ohsonline.com/articles/2014/05/12/study-indicates-co2-may-cause-astronauts-headaches.aspx)
+- [Orthostatic intolerance after flight (NASA NTRS)](https://ntrs.nasa.gov/api/citations/20140008722/downloads/20140008722.pdf)
+- [Atrial changes after 6 months (Khine 2018, review)](https://pmc.ncbi.nlm.nih.gov/articles/PMC10213435)
+- [NASA behavioral health risk](https://www.nasa.gov/directorates/esdmd/hhp/risk-of-adverse-cognitive-or-behavioral-conditions-and-psychiatric-disorders)
+
+**Early warning from wearables (Earth evidence)**
+- [Smartwatch pre-symptom detection (Mishra 2020)](https://med.stanford.edu/news/all-news/2020/12/smartwatch-can-detect-early-signs-of-illness.html)
+- [Continuous temperature finds fever early (Smarr 2020)](https://today.ucsd.edu/story/fever_wearables_2020)
 
 ## Notes
 - **Your data only.** Every number comes from your daily check-in and your Band, stored on your device. Your normal is learned from your first readings (needs 3; fully set at 14). The only simulated part is the labelled Demo Band, which is never saved.
