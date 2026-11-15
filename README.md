@@ -8,6 +8,8 @@ CrewPulse gives astronauts their **body weather**: today's health in one word, t
 
 **▶ See every screen with sample data (simulated, labelled):** https://shubhamsinha503.github.io/crewpulse/?sample
 
+**▶ 30-second demo video:** https://youtu.be/XkDi06veSNg
+
 ## Features
 - **Body weather** — 4 conditions (fatigue, mood, heart, muscle & bone) learned from **your own** readings, today + 3-day forecast, with plain "why" lines.
 - **Change your forecast** — tick a plan, watch the forecast update.
