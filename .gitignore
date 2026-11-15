@@ -1,0 +1,10 @@
+# Private planning material (pitch, research, orders) — not published
+docs/
+# Local tool settings
+.claude/
+# OS / editor clutter
+Thumbs.db
+.DS_Store
+*.log
+# Screenshot bundle (uploaded to the submission page instead)
+CrewPulse-screenshots.zip
