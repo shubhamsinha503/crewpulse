@@ -8,3 +8,5 @@ Thumbs.db
 *.log
 # Screenshot bundle (uploaded to the submission page instead)
 CrewPulse-screenshots.zip
+# Local recording stage for the demo video (not published)
+astro-health/stage.html

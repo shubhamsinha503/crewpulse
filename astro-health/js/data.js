@@ -1,4 +1,4 @@
-/* CrewPulse — YOUR data only.
+/* CrewPulse — YOUR data only (except the labelled ?sample mode, which is simulated and kept in memory).
    Everything comes from a day-by-day log stored on this device:
    - the Band's 2-minute calm reading (resting heart rate, HRV)
    - the daily check-in (sleep, mood, stress, symptoms, reaction time, exercise, grip, mass)
@@ -44,10 +44,52 @@
 
   // ---------- the log (this device only) ----------
   const LOG_KEY = 'crewpulse-log-v1';
+
+  // ---------- sample mode (?sample) ----------
+  // A clearly labelled, simulated 21-day log so visitors and judges can see every screen with data.
+  // It lives in memory only: your real log is never read, changed or saved over. Leave with "Exit sample".
+  const SAMPLE_FLAG = 'crewpulse-sample';
+  try {
+    const qs = new URLSearchParams(location.search);
+    if (qs.has('sample')) sessionStorage.setItem(SAMPLE_FLAG, '1');
+    if (qs.has('real')) sessionStorage.removeItem(SAMPLE_FLAG);
+    Q.SAMPLE = sessionStorage.getItem(SAMPLE_FLAG) === '1';
+  } catch (e) { Q.SAMPLE = false; }
+  function sampleLog() {
+    const days = {}, now = new Date();
+    const wob = (i, a) => Math.sin(i * 1.7) * a;
+    for (let k = 20; k >= 0; k--) {
+      const i = 20 - k, drift = Math.max(0, i - 14) / 6; // a gentle fatigue/strain drift over the last 6 days
+      const v = {
+        rhr: Math.round(58 + wob(i, 1.5) + drift * 6), hrv: Math.round(56 + wob(i, 3) - drift * 14),
+        temp: +(33.4 + wob(i, 0.12) + drift * 0.5).toFixed(1), ib: +(1.2 + Math.abs(wob(i, 0.5)) + drift * 1.5).toFixed(1),
+        sleep: +(7.1 + wob(i, 0.35) - drift * 1.8).toFixed(1), mood: +(4 + wob(i, 0.3) - drift * 1.3).toFixed(1),
+        stress: +(2 + wob(i, 0.3) + drift * 1.4).toFixed(1), rt: Math.round(282 + wob(i, 8) + drift * 45),
+        exercise: Math.round(45 + wob(i, 10) - drift * 15),
+      };
+      if (i % 7 === 0 || k === 0) { v.grip = +(41 - i * 0.05).toFixed(1); v.mass = +(72.4 - i * 0.02).toFixed(1); }
+      days[Q.dateKey(new Date(now.getTime() - k * DAY))] = { values: v, symptoms: [], sources: {}, at: Date.now() - k * DAY };
+    }
+    return { v: 1, days, sample: true };
+  }
+  Q.exitSample = () => { try { sessionStorage.removeItem(SAMPLE_FLAG); } catch (e) {} location.href = location.pathname + '#today'; };
+
   let LOG;
-  try { LOG = JSON.parse(localStorage.getItem(LOG_KEY) || 'null'); } catch (e) { LOG = null; }
-  if (!LOG || typeof LOG !== 'object' || !LOG.days) LOG = { v: 1, days: {} };
-  const persist = () => { try { localStorage.setItem(LOG_KEY, JSON.stringify(LOG)); } catch (e) { /* storage blocked */ } };
+  if (Q.SAMPLE) LOG = sampleLog();
+  else {
+    try { LOG = JSON.parse(localStorage.getItem(LOG_KEY) || 'null'); } catch (e) { LOG = null; }
+    if (!LOG || typeof LOG !== 'object' || !LOG.days) LOG = { v: 1, days: {} };
+  }
+  const persist = () => { if (Q.SAMPLE) return; try { localStorage.setItem(LOG_KEY, JSON.stringify(LOG)); } catch (e) { /* storage blocked */ } };
+
+  // label every screen while sample data is showing
+  if (Q.SAMPLE) addEventListener('DOMContentLoaded', () => {
+    const b = document.createElement('div');
+    b.className = 'sample-banner';
+    b.innerHTML = '<span><b>Sample data</b> · simulated 3-week log so you can explore every screen. Your own data is not touched.</span><button type="button">Exit sample</button>';
+    b.querySelector('button').onclick = Q.exitSample;
+    document.body.prepend(b);
+  });
 
   Q.log = {
     days: () => Object.keys(LOG.days).filter((k) => hasData(LOG.days[k])).sort(),

@@ -1,5 +1,5 @@
 // CrewPulse service worker: cache the app shell so it runs with no connection.
-const CACHE = 'crewpulse-v44';
+const CACHE = 'crewpulse-v45';
 const SHELL = ['./', './index.html', './styles.css', './icon.svg', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png', './icons/apple-touch-icon.png', './fonts/inter-var.woff2', './fonts/geist-mono-var.woff2', './manifest.webmanifest',
   './js/data.js', './js/engine.js', './js/forecast.js', './js/band.js', './js/support.js', './js/warning.js', './js/charts.js', './js/app.js'];
 

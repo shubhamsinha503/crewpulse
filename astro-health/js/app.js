@@ -34,7 +34,7 @@
   function renderHeader() {
     $('#mdLabel').textContent = Q.daysLogged ? 'Log day ' + Q.N : 'Day 1';
     $('#profileLabel').textContent = Q.daysLogged
-      ? `${Q.daysLogged} day${Q.daysLogged === 1 ? '' : 's'} logged since ${Q.fmtDate(Q.startDate)} · your data only`
+      ? `${Q.daysLogged} day${Q.daysLogged === 1 ? '' : 's'} logged since ${Q.fmtDate(Q.startDate)} · ${Q.SAMPLE ? 'sample data (simulated)' : 'your data only'}`
       : 'No readings yet · your data only';
     const B = Q.band, st = B.state;
     const word = st === 'live' ? (B.source === 'demo' ? 'Demo Band (simulated)' : 'Band live') : st === 'connecting' ? 'Band connecting…' : st === 'lost' ? 'Band reconnecting…' : 'Band not connected';
@@ -264,6 +264,7 @@
         <div class="hero-actions">
           ${ci ? '' : '<a class="btn" href="#checkin">Do today\'s 2-minute check-in</a>'}
           ${ready ? `<button class="btn ghost go-btn" data-goopen aria-expanded="${!!S.goOpen}">${S.goOpen ? 'Hide go / caution check' : 'Go / caution check'}</button>` : '<a class="btn ghost" href="#band">Connect Band</a>'}
+          ${!ready && !Q.SAMPLE && !Q.daysLogged ? '<a class="btn ghost" href="?sample#today">Try with sample data</a>' : ''}
         </div>
       </header>
       ${supBanner(f)}

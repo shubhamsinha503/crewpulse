@@ -1287,3 +1287,11 @@ html, body { background: var(--space-glow), var(--bg); background-attachment: fi
   .trend.empty .idle-pulse, .trend.empty .nd-dot { animation: none !important; }
   .ul-pkt, .trend .last-ring, .trend.empty .idle-pulse { display: none; }
 }
+
+/* ---------- Sample mode banner (?sample) ---------- */
+.sample-banner { position: sticky; top: 0; z-index: 60; display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap;
+  padding: 8px 16px; background: var(--watch-bg); color: var(--text); border-bottom: 1px solid var(--watch-line); font-size: 14px; line-height: 1.4; text-align: center; }
+.sample-banner b { color: var(--watch); }
+.sample-banner button { font: inherit; font-weight: 600; padding: 6px 12px; min-height: 36px; border-radius: 8px; border: 1px solid var(--watch-line);
+  background: transparent; color: var(--text); cursor: pointer; }
+.sample-banner button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
